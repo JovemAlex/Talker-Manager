@@ -53,4 +53,30 @@ router.post('/',
   }
 });
 
+router.put('/:id',
+  validateToken,
+  validateName,
+  validateAge,
+  validateTalk,
+  validateWatchedAt,
+  validateRate,
+  async (req, res) => {
+  try {
+    const { id } = req.params;
+    const talker = { ...req.body };
+
+    const content = await readFile();
+    const talkerSearched = content.find((person) => person.id === Number(id));
+
+    talkerSearched.name = talker.name;
+    talkerSearched.age = talker.age;
+    talkerSearched.talk = talker.talk;
+
+    writeFile(content);
+    return res.status(200).json(talkerSearched);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = router;
