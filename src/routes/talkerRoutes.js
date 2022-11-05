@@ -79,4 +79,18 @@ router.put('/:id',
   }
 });
 
+router.delete('/:id', validateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const content = await readFile();
+    const talkerToDelete = content.filter((t) => t.id !== Number(id));
+    const updatedDelete = JSON.stringify(talkerToDelete, null, 2);
+    await writeFile(updatedDelete);
+    return res.status(204).end();
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = router;
