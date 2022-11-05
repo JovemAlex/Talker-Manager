@@ -1,11 +1,9 @@
 const express = require('express');
-const apiCredentials = require('../middlewares/apiCredentials');
+const apiCredentials = require('../utils/apiCredentials');
 const validateEmail = require('../middlewares/validateEmail');
 const validatePassword = require('../middlewares/validatePassword');
 
 const router = express.Router();
-
-// router.use(apiCredentials);
 
 router.post('/',
   validateEmail,
