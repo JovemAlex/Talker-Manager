@@ -7,6 +7,7 @@ const validateAge = require('../middlewares/validateAge');
 const validateTalk = require('../middlewares/validateTalk');
 const validateWatchedAt = require('../middlewares/validateWatchedAt');
 const validateRate = require('../middlewares/validateRate');
+const validateQueryParam = require('../middlewares/validateQueryParam');
 
 const router = express.Router();
 
@@ -16,6 +17,24 @@ router.get('/', async (req, res) => {
     return res.status(200).json(content);
   } catch (error) {
     return res.status(200).json(content);
+  }
+});
+
+router.get('/search',
+  validateToken,
+  validateQueryParam,
+  async (req, res) => {
+  try {
+    const { q } = req.query;
+
+    const content = await readFile();
+
+    const talkerSearched = content
+      .filter(({ name }) => name.toLowerCase().includes(q.toLowerCase()));
+
+    return res.status(200).json(talkerSearched);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
   }
 });
 
